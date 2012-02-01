@@ -1,0 +1,23 @@
+name: EmptyFood
+description: Get hungry!
+version: 1.1
+author: koesie10
+website:  http://www.koenv.com
+
+main: com.koesie10.emptyfood.EmptyFood
+
+commands:
+ efeed:
+    description: /efeed (amount) (player) Sets food level to given amount. BY KOESIE10
+permissions:
+    emptyfood.*:
+        description: Gives access to set the food level of all players
+        children:
+            emptyfood.self: true
+            emptyfood.other: true
+    emptyfood.self:
+        description: Allows you to set the food level of yourself.
+        default: true
+    emptyfood.other:
+        description: Allows you to set the food level of any other player.
+        default: op
