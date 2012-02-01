@@ -4,9 +4,12 @@ import java.util.ArrayList;
 
 import org.bukkit.Bukkit;
 import org.bukkit.ChatColor;
+import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandSender;
 import org.bukkit.entity.Player;
+import org.bukkit.inventory.ItemStack;
+import org.bukkit.inventory.PlayerInventory;
 //import org.bukkit.event.Event;
 //import org.bukkit.plugin.PluginManager;
 import org.bukkit.plugin.java.JavaPlugin;
@@ -118,6 +121,42 @@ public class EmptyFood extends JavaPlugin{
 		    	}
 		    		
 		        succeed = true;
+			}
+		    else if (cmd.getName().equalsIgnoreCase("eat"))
+			{
+		    	if (args.length == 1) 
+				{
+		    		if(player.hasPermission("emptyfood.eat.other")) 
+		    		{
+			    		Player other = Bukkit.getPlayer(args[0]);
+			            if (other == null) {
+			               player.sendMessage(ChatColor.RED + "[EmptyFood] " + args[0] + " is not online!");
+			            }
+			            else
+			            {
+				            other.setFoodLevel(8);
+				            PlayerInventory inventory = other.getInventory(); // The player's inventory
+				    	    ItemStack cake = new ItemStack(Material.CAKE, 1); // A stack of diamonds
+				    		inventory.addItem(cake);
+				            player.sendMessage(ChatColor.AQUA + "[EmptyFood] The Food Level of " + args[0] + " is now 8 and " + args[0] + " got a cake!");
+				            other.sendMessage(ChatColor.AQUA + "[EmptyFood] Your Food Level is now 8 and you got a cake! EAT IT!");
+			            }
+			        }
+		    	}
+		    	else
+		    	{
+			    	if(player.hasPermission("emptyfood.eat.self")) {
+			    		player.setFoodLevel(8);
+			    		PlayerInventory inventory = player.getInventory(); // The player's inventory
+			    	    ItemStack cake = new ItemStack(Material.CAKE, 1); // A stack of diamonds
+			    		inventory.addItem(cake);
+			    		player.sendMessage(ChatColor.AQUA + "[EmptyFood] Your Food Level is now 8 and you got a cake!");
+		    		}
+		    		else
+		    		{
+		    			player.sendMessage(ChatColor.RED + "[EmptyFood] You don't have permissions to do this!");
+		    		}
+		    	}
 			}
 		}
 		return succeed;
